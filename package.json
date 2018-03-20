@@ -1,0 +1,17 @@
+{
+  "name": "ruuvidriver",
+  "version": "0.1.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node index.js",
+  },
+  "dependencies": {
+    "dotenv": "^5.0.1",
+    "express": "^4.16.3",
+    "node-ruuvitag": "^4.1.0"
+  },
+  "devDependencies": {
+    "prettier": "^1.11.1"
+  }
+}
