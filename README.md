@@ -10,9 +10,54 @@ Usage
 
 * `yarn`
 * `yarn start`
-* Visit `http://127.0.0.1:52020`. Any Ruuvitags in your device's vicinity should start showing up.
+* Visit `http://127.0.0.1:52020/tags`. Any Ruuvitags in your device's vicinity should start showing up.
 
 :information_source: You'll get higher resolution data if your Ruuvitag is in Raw mode. You can toggle this by pressing the B button on your tag. See the "RAW mode" section in the [Ruuvitag Firmware docs](https://lab.ruuvi.com/ruuvitag-fw/).
+
+Endpoints
+---------
+
+### All tags (`/tags`)
+
+All tags, as a mapping:
+
+```json
+{
+    "beefbeefbeef": {
+        "dataFormat": 3,
+        "rssi": -73,
+        "humidity": 21,
+        "temperature": 21.72,
+        "pressure": 100664,
+        "accelerationX": -64,
+        "accelerationY": -44,
+        "accelerationZ": 1020,
+        "battery": 2935,
+        "ts": 1521542394667
+    }
+}
+```
+
+
+### Single tag (`/tag/:id` (i.e. `/tag/beefbeefbeef`))
+
+As above, but the given tag's data only.
+
+```json
+{
+    "dataFormat": 3,
+    "rssi": -73,
+    "humidity": 21,
+    "temperature": 21.72,
+    "pressure": 100664,
+    "accelerationX": -64,
+    "accelerationY": -44,
+    "accelerationZ": 1020,
+    "battery": 2935,
+    "ts": 1521542394667
+}
+```
+
 
 Configuration
 -------------
