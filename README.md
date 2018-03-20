@@ -12,6 +12,8 @@ Usage
 * `yarn start`
 * Visit `http://127.0.0.1:52020`. Any Ruuvitags in your device's vicinity should start showing up.
 
+:information_source: You'll get higher resolution data if your Ruuvitag is in Raw mode. You can toggle this by pressing the B button on your tag. See the "RAW mode" section in the [Ruuvitag Firmware docs](https://lab.ruuvi.com/ruuvitag-fw/).
+
 Configuration
 -------------
 
