@@ -1,6 +1,6 @@
 require("dotenv").config();
 const express = require("express");
-const ruuvi = require("node-ruuvitag");
+const ruuvi = require("./node-ruuvitag");
 const app = express();
 
 const tagDatas = {};
