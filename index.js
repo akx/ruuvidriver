@@ -1,21 +1,40 @@
-require("dotenv").config();
-const express = require("express");
-const ruuvi = require("./node-ruuvitag");
-const app = express();
-
 const tagDatas = {};
+let initialized = false;
 
-ruuvi.on("found", tag => {
-  console.log(`Found tag ${tag.id}`);
-  tag.on("updated", data => {
-    tagDatas[tag.id] = { ...data, ts: +new Date() };
+function init() {
+  if(initialized) {
+    return false;
+  }
+  const ruuvi = require("./node-ruuvitag");
+  ruuvi.on("found", tag => {
+    console.log(`Found tag ${tag.id}`);
+    tag.on("updated", data => {
+      tagDatas[tag.id] = { ...data, ts: +new Date() };
+    });
   });
-});
+  initialized = true;
+  return true;
+}
 
-app.get("/tags", (req, res) => res.json(tagDatas));
-app.get("/tag/:id", (req, res) => res.json(tagDatas[req.params.id]));
+function createApp() {
+  const express = require("express");
+  const app = express();
+  app.get("/tags", (req, res) => res.json(tagDatas));
+  app.get("/tag/:id", (req, res) => res.json(tagDatas[req.params.id]));
+  return app;
+}
 
-const port = parseInt(process.env.RUUVI_PORT || "52020", 10);
-app.listen(port, () => {
-  console.log(`Listening on ${port}`);
-});
+module.exports.init = init;
+module.exports.tagDatas = tagDatas;
+module.exports.createApp = createApp;
+
+// Being run from the command line?
+if(module.parent === null) {
+  require("dotenv").config();
+  const port = parseInt(process.env.RUUVI_PORT || "52020", 10);
+  const app = createApp();
+  init();
+  app.listen(port, () => {
+    console.log(`Listening on ${port}`);
+  });
+}
