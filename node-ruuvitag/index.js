@@ -1,19 +1,16 @@
-const noble = require('@abandonware/noble');
-const EventEmitter = require('events').EventEmitter;
-const parser = require('./parse');
-const parseEddystoneBeacon = require('./eddystone');
+const noble = require("@abandonware/noble");
+const EventEmitter = require("events").EventEmitter;
+const parser = require("./parse");
+const parseEddystoneBeacon = require("./eddystone");
 
 class RuuviTag extends EventEmitter {
-
   constructor(data) {
     super();
     this.id = data.id;
   }
-
 }
 
 class Ruuvi extends EventEmitter {
-
   constructor() {
     super();
     this._foundTags = []; // this array will contain registered RuuviTags
@@ -21,69 +18,89 @@ class Ruuvi extends EventEmitter {
     this.scanning = false;
     this.listenerAttached = false;
 
-    const registerTag = (tag) => {
+    const registerTag = tag => {
       this._foundTags.push(tag);
       this._tagLookup[tag.id] = tag;
-    }
+    };
 
-    const onDiscover = (peripheral) => {
-
+    const onDiscover = peripheral => {
       let newRuuviTag;
 
       // Scan for new RuuviTags, add them to the array of found tags
       // is it a RuuviTag in RAW mode?
-      const manufacturerData = peripheral.advertisement ? peripheral.advertisement.manufacturerData : undefined;
-      if (manufacturerData && manufacturerData[0] === 0x99 && manufacturerData[1] === 0x04) {
+      const manufacturerData = peripheral.advertisement
+        ? peripheral.advertisement.manufacturerData
+        : undefined;
+      if (
+        manufacturerData &&
+        manufacturerData[0] === 0x99 &&
+        manufacturerData[1] === 0x04
+      ) {
         if (!this._tagLookup[peripheral.id]) {
           newRuuviTag = new RuuviTag({
-            id: peripheral.id,
+            id: peripheral.id
           });
           registerTag(newRuuviTag);
-          this.emit('found', newRuuviTag);
+          this.emit("found", newRuuviTag);
         }
       }
 
       // is it a RuuviTag in Eddystone mode?
       else {
-        const serviceDataArray = peripheral.advertisement ? peripheral.advertisement.serviceData : undefined;
-        const serviceData = serviceDataArray && serviceDataArray.length ? serviceDataArray[0] : undefined;
-        if (serviceData && serviceData.uuid === 'feaa') {
+        const serviceDataArray = peripheral.advertisement
+          ? peripheral.advertisement.serviceData
+          : undefined;
+        const serviceData =
+          serviceDataArray && serviceDataArray.length
+            ? serviceDataArray[0]
+            : undefined;
+        if (serviceData && serviceData.uuid === "feaa") {
           const url = parseEddystoneBeacon(serviceData.data);
           if (url && url.match(/ruu\.vi/)) {
             if (!this._tagLookup[peripheral.id]) {
               newRuuviTag = new RuuviTag({
-                id: peripheral.id,
+                id: peripheral.id
               });
               registerTag(newRuuviTag);
-              this.emit('found', newRuuviTag);
+              this.emit("found", newRuuviTag);
             }
           }
         }
       }
 
-
       // Check if it is an advertisement by an already found RuuviTag, emit "updated" event
       const ruuviTag = this._tagLookup[peripheral.id];
 
       if (ruuviTag) {
-        if (peripheral.advertisement && peripheral.advertisement.manufacturerData) {
+        if (
+          peripheral.advertisement &&
+          peripheral.advertisement.manufacturerData
+        ) {
           // is data format 3
           return ruuviTag.emit(
-            'updated',
+            "updated",
             Object.assign(
               { dataFormat: 3, rssi: peripheral.rssi },
-              parser.parseManufacturerData(peripheral.advertisement.manufacturerData))
+              parser.parseManufacturerData(
+                peripheral.advertisement.manufacturerData
+              )
+            )
           );
         }
 
         // is data format 2 or 4
 
         const serviceDataArray = peripheral.advertisement.serviceData;
-        const serviceData = serviceDataArray && serviceDataArray.length ? serviceDataArray[0] : undefined;
-        const url = serviceData ? parseEddystoneBeacon(serviceData.data) : undefined;
+        const serviceData =
+          serviceDataArray && serviceDataArray.length
+            ? serviceDataArray[0]
+            : undefined;
+        const url = serviceData
+          ? parseEddystoneBeacon(serviceData.data)
+          : undefined;
         const parsed = url ? parser.parseUrl(url) : undefined;
         if (parsed && !(parsed instanceof Error)) {
-          ruuviTag.emit('updated', {
+          ruuviTag.emit("updated", {
             url: url,
             dataFormat: parsed.dataFormat,
             rssi: peripheral.rssi,
@@ -94,36 +111,30 @@ class Ruuvi extends EventEmitter {
           });
         }
       }
-    }
+    };
 
-    noble.on('discover', onDiscover);
+    noble.on("discover", onDiscover);
 
     // start scanning
-    if (noble.state === 'poweredOn') {
+    if (noble.state === "poweredOn") {
       noble.startScanning([], true);
-    }
-    else {
-      noble.once('stateChange', () => {
+    } else {
+      noble.once("stateChange", () => {
         noble.startScanning([], true);
       });
     }
-
   }
 
   findTags() {
-
     return new Promise((resolve, reject) => {
-
       setTimeout(() => {
         if (this._foundTags.length) {
           return resolve(this._foundTags);
         }
-        reject(new Error('No beacons found'));
+        reject(new Error("No beacons found"));
       }, 5000);
-
     });
-
   }
 }
 
-const ruuvi = module.exports = new Ruuvi();
+const ruuvi = (module.exports = new Ruuvi());

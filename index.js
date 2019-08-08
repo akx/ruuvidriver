@@ -2,7 +2,7 @@ const tagDatas = {};
 let initialized = false;
 
 function init() {
-  if(initialized) {
+  if (initialized) {
     return false;
   }
   const ruuvi = require("./node-ruuvitag");
@@ -29,7 +29,7 @@ module.exports.tagDatas = tagDatas;
 module.exports.createApp = createApp;
 
 // Being run from the command line?
-if(module.parent === null) {
+if (module.parent === null) {
   require("dotenv").config();
   const port = parseInt(process.env.RUUVI_PORT || "52020", 10);
   const app = createApp();
