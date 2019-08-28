@@ -15,5 +15,8 @@
   "devDependencies": {
     "jest": "^24.8.0",
     "prettier": "^1.18.2"
+  },
+  "resolutions": {
+    "@abandonware/noble/@abandonware/bluetooth-hci-socket": "https://github.com/akx/node-bluetooth-hci-socket.git#node-12"
   }
 }
