@@ -1,19 +1,26 @@
+const Ruuvi = require("./node-ruuvitag");
 const tagDatas = {};
-let initialized = false;
+let ruuvi = null;
 
 function init() {
-  if (initialized) {
+  if (ruuvi) {
     return false;
   }
-  const ruuvi = require("./node-ruuvitag");
+  ruuvi = new Ruuvi();
   ruuvi.on("found", tag => {
     console.log(`Found tag ${tag.id}`);
     tag.on("updated", data => {
       tagDatas[tag.id] = { ...data, ts: +new Date() };
     });
   });
-  initialized = true;
   return true;
+}
+
+function stop() {
+  if (ruuvi) {
+    ruuvi.stop();
+    ruuvi = null;
+  }
 }
 
 function createApp() {
@@ -25,6 +32,7 @@ function createApp() {
 }
 
 module.exports.init = init;
+module.exports.stop = stop;
 module.exports.tagDatas = tagDatas;
 module.exports.createApp = createApp;
 

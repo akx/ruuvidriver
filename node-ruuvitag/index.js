@@ -15,8 +15,6 @@ class Ruuvi extends EventEmitter {
     super();
     this._foundTags = []; // this array will contain registered RuuviTags
     this._tagLookup = {};
-    this.scanning = false;
-    this.listenerAttached = false;
 
     const registerTag = tag => {
       this._foundTags.push(tag);
@@ -125,6 +123,11 @@ class Ruuvi extends EventEmitter {
     }
   }
 
+  stop() {
+    // this may mess with other noble uses in the same process
+    noble.stopScanning();
+  }
+
   findTags() {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -137,4 +140,4 @@ class Ruuvi extends EventEmitter {
   }
 }
 
-const ruuvi = (module.exports = new Ruuvi());
+module.exports = Ruuvi;
