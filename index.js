@@ -16,6 +16,10 @@ function init() {
   return true;
 }
 
+function getRuuvi() {
+  return ruuvi;
+}
+
 function stop() {
   if (ruuvi) {
     ruuvi.stop();
@@ -35,6 +39,7 @@ module.exports.init = init;
 module.exports.stop = stop;
 module.exports.tagDatas = tagDatas;
 module.exports.createApp = createApp;
+module.exports.getRuuvi = getRuuvi;
 
 // Being run from the command line?
 if (module.parent === null) {
