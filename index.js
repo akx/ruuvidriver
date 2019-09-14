@@ -1,12 +1,11 @@
-const Ruuvi = require("./node-ruuvitag");
 const tagDatas = {};
-let ruuvi = null;
+let initialized = false;
+const ruuvi = require("node-ruuvitag");
 
 function init() {
-  if (ruuvi) {
+  if (initialized) {
     return false;
   }
-  ruuvi = new Ruuvi();
   ruuvi.on("found", tag => {
     console.log(`Found tag ${tag.id}`);
     tag.on("updated", data => {
@@ -22,8 +21,8 @@ function getRuuvi() {
 
 function stop() {
   if (ruuvi) {
-    ruuvi.stop();
     ruuvi = null;
+    initialized = false;
   }
 }
 

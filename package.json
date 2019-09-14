@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@abandonware/noble": "^1.9.2-3",
+    "node-ruuvitag": "https://github.com/io53/node-ruuvitag.git#master",
     "dotenv": "^8.0.0",
     "express": "^4.16.3"
   },
@@ -17,6 +18,7 @@
     "prettier": "^1.18.2"
   },
   "resolutions": {
-    "@abandonware/noble/@abandonware/bluetooth-hci-socket": "https://github.com/akx/node-bluetooth-hci-socket.git#node-12"
+    "@abandonware/noble/@abandonware/bluetooth-hci-socket": "https://github.com/akx/node-bluetooth-hci-socket.git#node-12",
+    "node-ruuvitag/bluetooth-hci-socket": "https://github.com/akx/node-bluetooth-hci-socket.git#node-12"
   }
 }

@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@abandonware/bluetooth-hci-socket@^0.5.3-1", "@abandonware/bluetooth-hci-socket@https://github.com/akx/node-bluetooth-hci-socket.git#node-12":
+"@abandonware/bluetooth-hci-socket@^0.5.3-1", "@abandonware/bluetooth-hci-socket@https://github.com/akx/node-bluetooth-hci-socket.git#node-12", "bluetooth-hci-socket@https://github.com/akx/node-bluetooth-hci-socket.git#node-12":
   version "0.5.3-2"
   resolved "https://github.com/akx/node-bluetooth-hci-socket.git#762c7719b55872c32b1704bfe5458be6605418ac"
   dependencies:
@@ -2688,6 +2688,12 @@ node-pre-gyp@^0.13.0:
     rimraf "^2.6.1"
     semver "^5.3.0"
     tar "^4"
+
+"node-ruuvitag@https://github.com/io53/node-ruuvitag.git#master":
+  version "4.0.0"
+  resolved "https://github.com/io53/node-ruuvitag.git#e267979cb4035607d2de0f278f3c430f9f5c3803"
+  dependencies:
+    "@abandonware/noble" "^1.9.2-3"
 
 noop-logger@^0.1.1:
   version "0.1.1"
