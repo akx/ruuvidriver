@@ -7,9 +7,9 @@ function init() {
     return false;
   }
   ruuvi = new Ruuvi();
-  ruuvi.on("found", tag => {
+  ruuvi.on("found", (tag) => {
     console.log(`Found tag ${tag.id}`);
-    tag.on("updated", data => {
+    tag.on("updated", (data) => {
       tagDatas[tag.id] = { ...data, ts: +new Date() };
     });
   });

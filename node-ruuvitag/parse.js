@@ -29,7 +29,7 @@ function getReadings(encodedData) {
 
 const that = (module.exports = {});
 
-that.parseUrl = url => {
+that.parseUrl = (url) => {
   if (!url.match(/ruu\.vi/)) {
     return new Error("Not a ruuviTag url");
   }
@@ -39,7 +39,7 @@ that.parseUrl = url => {
   return encodedData instanceof Error ? encodedData : getReadings(encodedData);
 };
 
-that.parseManufacturerData = dataBuffer => {
+that.parseManufacturerData = (dataBuffer) => {
   let dataFormat = dataBuffer[2];
   switch (dataFormat) {
     case 3:

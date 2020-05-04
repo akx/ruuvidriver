@@ -18,12 +18,12 @@ class Ruuvi extends EventEmitter {
     this.scanning = false;
     this.listenerAttached = false;
 
-    const registerTag = tag => {
+    const registerTag = (tag) => {
       this._foundTags.push(tag);
       this._tagLookup[tag.id] = tag;
     };
 
-    const onDiscover = peripheral => {
+    const onDiscover = (peripheral) => {
       let newRuuviTag;
 
       // Scan for new RuuviTags, add them to the array of found tags
@@ -38,7 +38,7 @@ class Ruuvi extends EventEmitter {
       ) {
         if (!this._tagLookup[peripheral.id]) {
           newRuuviTag = new RuuviTag({
-            id: peripheral.id
+            id: peripheral.id,
           });
           registerTag(newRuuviTag);
           this.emit("found", newRuuviTag);
@@ -59,7 +59,7 @@ class Ruuvi extends EventEmitter {
           if (url && url.match(/ruu\.vi/)) {
             if (!this._tagLookup[peripheral.id]) {
               newRuuviTag = new RuuviTag({
-                id: peripheral.id
+                id: peripheral.id,
               });
               registerTag(newRuuviTag);
               this.emit("found", newRuuviTag);
@@ -107,7 +107,7 @@ class Ruuvi extends EventEmitter {
             humidity: parsed.humidity,
             temperature: parsed.temperature,
             pressure: parsed.pressure,
-            eddystoneId: parsed.eddystoneId
+            eddystoneId: parsed.eddystoneId,
           });
         }
       }

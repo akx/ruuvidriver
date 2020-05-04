@@ -14,7 +14,7 @@ const suffixes = [
   ".net",
   ".info",
   ".biz",
-  ".gov"
+  ".gov",
 ];
 
 module.exports = function parseEddystoneBeacon(serviceDataBuffer) {

@@ -1,4 +1,4 @@
-const parseRawRuuvi = function(data) {
+const parseRawRuuvi = function (data) {
   let robject = {};
 
   let temperature = (data[3] << 8) | (data[4] & 0xff);
@@ -33,5 +33,5 @@ const parseRawRuuvi = function(data) {
 };
 
 module.exports = {
-  parse: buffer => parseRawRuuvi(buffer)
+  parse: (buffer) => parseRawRuuvi(buffer),
 };

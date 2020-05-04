@@ -2,7 +2,7 @@
 // which is licenced under BSD-3
 // Credits to GitHub user ojousima
 
-const parseRawRuuvi = function(manufacturerDataString) {
+const parseRawRuuvi = function (manufacturerDataString) {
   let humidityStart = 6;
   let humidityEnd = 8;
   let temperatureStart = 8;
@@ -83,5 +83,5 @@ const parseRawRuuvi = function(manufacturerDataString) {
 };
 
 module.exports = {
-  parse: buffer => parseRawRuuvi(buffer.toString("hex"))
+  parse: (buffer) => parseRawRuuvi(buffer.toString("hex")),
 };
