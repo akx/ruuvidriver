@@ -12,6 +12,18 @@ Tested on Raspberry Pi 3 with Raspbian and Node 9 from Nodesource.
 
 :information_source: You'll get higher resolution data if your Ruuvitag is in Raw mode. You can toggle this by pressing the B button on your tag. See the "RAW mode" section in the [Ruuvitag Firmware docs](https://lab.ruuvi.com/ruuvitag-fw/).
 
+### Not seeing tags?
+
+If you're running Ruuvidriver as a regular user on Linux, the Node.js binary needs a capability to be allowed to do BLE things.
+
+An easy way to set the `CAP_NET_RAW` capability required is
+
+```
+sudo setcap cap_net_raw+eip $(eval readlink -f `which node`)
+```
+
+but be certain you understand what this means for other programs using the same Node.js binary.
+
 ## Endpoints
 
 ### All tags (`/tags`)
