@@ -1,21 +1,18 @@
-ruuvidriver
-===========
+# ruuvidriver
 
 Serves your [Ruuvitag](https://tag.ruuvi.com/) Weather Station data over HTTP.
 
 Tested on Raspberry Pi 3 with Raspbian and Node 9 from Nodesource.
 
-Usage
------
+## Usage
 
-* `yarn`
-* `yarn start`
-* Visit `http://127.0.0.1:52020/tags`. Any Ruuvitags in your device's vicinity should start showing up.
+- `yarn`
+- `yarn start`
+- Visit `http://127.0.0.1:52020/tags`. Any Ruuvitags in your device's vicinity should start showing up.
 
 :information_source: You'll get higher resolution data if your Ruuvitag is in Raw mode. You can toggle this by pressing the B button on your tag. See the "RAW mode" section in the [Ruuvitag Firmware docs](https://lab.ruuvi.com/ruuvitag-fw/).
 
-Endpoints
----------
+## Endpoints
 
 ### All tags (`/tags`)
 
@@ -23,28 +20,7 @@ All tags, as a mapping:
 
 ```json
 {
-    "beefbeefbeef": {
-        "dataFormat": 3,
-        "rssi": -73,
-        "humidity": 21,
-        "temperature": 21.72,
-        "pressure": 100664,
-        "accelerationX": -64,
-        "accelerationY": -44,
-        "accelerationZ": 1020,
-        "battery": 2935,
-        "ts": 1521542394667
-    }
-}
-```
-
-
-### Single tag (`/tag/:id` (i.e. `/tag/beefbeefbeef`))
-
-As above, but the given tag's data only.
-
-```json
-{
+  "beefbeefbeef": {
     "dataFormat": 3,
     "rssi": -73,
     "humidity": 21,
@@ -55,19 +31,36 @@ As above, but the given tag's data only.
     "accelerationZ": 1020,
     "battery": 2935,
     "ts": 1521542394667
+  }
 }
 ```
 
+### Single tag (`/tag/:id` (i.e. `/tag/beefbeefbeef`))
 
-Configuration
--------------
+As above, but the given tag's data only.
+
+```json
+{
+  "dataFormat": 3,
+  "rssi": -73,
+  "humidity": 21,
+  "temperature": 21.72,
+  "pressure": 100664,
+  "accelerationX": -64,
+  "accelerationY": -44,
+  "accelerationZ": 1020,
+  "battery": 2935,
+  "ts": 1521542394667
+}
+```
+
+## Configuration
 
 Configured via environment variables or a `.env` file via dotenv.
 
-* `RUUVI_PORT`: Port to serve on. Defaults to 52020.
+- `RUUVI_PORT`: Port to serve on. Defaults to 52020.
 
-Usage with Home-Assistant
--------------------------
+## Usage with Home-Assistant
 
 Ruuvidriver is trivial to integrate with [home-assistant](https://home-assistant.io).
 
@@ -82,25 +75,25 @@ the port above.)
 - platform: rest
   resource: http://127.0.0.1:52020/tag/beefbeefbeef/
   name: Magic Mystery Room Temperature
-  value_template: '{{ value_json.temperature }}'
-  unit_of_measurement: 'C'
+  value_template: "{{ value_json.temperature }}"
+  unit_of_measurement: "C"
   force_update: true
 - platform: rest
   resource: http://127.0.0.1:52020/tag/beefbeefbeef/
   name: Magic Mystery Room Humidity
-  value_template: '{{ value_json.humidity }}'
-  unit_of_measurement: '%RH'
+  value_template: "{{ value_json.humidity }}"
+  unit_of_measurement: "%RH"
   force_update: true
 - platform: rest
   resource: http://127.0.0.1:52020/tag/beefbeefbeef/
   name: Magic Mystery Room Ruuvi Voltage
-  value_template: '{{ value_json.battery }}'
-  unit_of_measurement: 'mV'
+  value_template: "{{ value_json.battery }}"
+  unit_of_measurement: "mV"
   force_update: true
 - platform: rest
   resource: http://127.0.0.1:52020/tag/beefbeefbeef/
   name: Magic Mystery Room Pressure
-  value_template: '{{ value_json.pressure }}'
-  unit_of_measurement: 'kPa'
+  value_template: "{{ value_json.pressure }}"
+  unit_of_measurement: "kPa"
   force_update: true
 ```
