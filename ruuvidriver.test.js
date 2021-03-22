@@ -1,3 +1,4 @@
+/* eslint-env jest */
 describe("ruuvidriver", () => {
   it("is importable", () => {
     const rd = require(".");

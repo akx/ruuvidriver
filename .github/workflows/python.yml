@@ -33,4 +33,5 @@ jobs:
           sudo apt-get update -qy
           sudo apt-get install -qy bluetooth bluez libbluetooth-dev libudev-dev
       - run: yarn
+      - run: yarn eslint .
       - run: yarn test
