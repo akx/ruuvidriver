@@ -1,7 +1,14 @@
-const noble = require("@abandonware/noble");
+let _noble = null;
 const EventEmitter = require("events").EventEmitter;
 const parser = require("./parse");
 const parseEddystoneBeacon = require("./eddystone");
+
+function getNoble() {
+  if (!_noble) {
+    _noble = require("@abandonware/noble");
+  }
+  return _noble;
+}
 
 class RuuviTag extends EventEmitter {
   constructor(data) {
@@ -113,6 +120,8 @@ class Ruuvi extends EventEmitter {
       }
     };
 
+    const noble = getNoble();
+
     noble.on("discover", onDiscover);
 
     // start scanning
@@ -126,6 +135,7 @@ class Ruuvi extends EventEmitter {
   }
 
   stop() {
+    const noble = getNoble();
     // this may mess with other noble uses in the same process
     noble.stopScanning();
   }
