@@ -1,4 +1,9 @@
-FROM node:12-stretch
+FROM node:12-buster
+
+RUN apt-get update && \
+    apt-get install -y libudev-dev libusb-1.0-0-dev && \
+    rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
 ADD . /app
 RUN yarn
