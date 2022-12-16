@@ -1,5 +1,11 @@
 # ruuvidriver
 
+---
+
+> :point_right: :warning: This project is no longer under active development as of December 2022.
+
+---
+
 Serves your [Ruuvitag](https://tag.ruuvi.com/) Weather Station data over HTTP.
 
 Tested on Raspberry Pi 3 with Raspbian and Node 9 from Nodesource.
